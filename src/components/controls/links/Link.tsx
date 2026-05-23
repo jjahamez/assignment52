@@ -8,7 +8,7 @@ type LinkProps = {
 };
 
 export const Link = ({ children, to, match }: LinkProps) => {
-  const matchResult = useMatch({ path: match || "" });
+  const matchResult = useMatch({ path: match ?? to });
   const isMatched = !!match && !!matchResult;
 
   return (
