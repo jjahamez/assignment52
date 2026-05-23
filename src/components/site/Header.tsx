@@ -2,9 +2,16 @@ import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ButtonGroup, Link, SearchBar } from "@/components";
+import { FaCog } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { IoCartOutline } from "react-icons/io5";
+import { ICON_SIZE } from "@/core";
+import { useUserContext } from "@/hooks/useUserContext";
+
 
 export const Header = () => {
   const navigate = useNavigate();
+  const {favorites, purchases} = useUserContext();
   const { pathname } = useLocation();
   const [query, setQuery] = useState("");
   const [type, setType] = useState<string>("movie");
@@ -20,7 +27,7 @@ export const Header = () => {
   };
 
   return (
-    <header>
+    <header >
       <nav className={`flex flex-wrap items-center gap-4 p-4 transition-colors duration-300 ${getHeaderColor()}`}>
         <h1 className="shrink-0 font-bold text-2xl text-white">TMDB Browser</h1>
         <div className="flex flex-wrap gap-2">
@@ -60,6 +67,30 @@ export const Header = () => {
           />
         </div>
       </nav>
+      <div className="bg-green-950 justify-between flex items-center">
+        <h1 className="text-center font-bold text-3xl text-white tracking-tight">Welcome user</h1>
+        <div className="flex items-center gap-2">
+            <button onClick={()=>navigate("/favorites")} className="cursor-pointer relative rounded-full p-2 transition hover:bg-gray-700">
+              <FaRegHeart size={ICON_SIZE}/>
+               {favorites.size > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] text-white">
+                  {favorites.size}
+                </span>
+              )}
+            </button>
+            <button onClick={()=>navigate("/cart")} className="cursor-pointer relative rounded-full p-2 transition hover:bg-gray-700">
+              <IoCartOutline size={ICON_SIZE} />
+              {purchases.size > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] text-white">
+                  {purchases.size}
+                </span>
+              )}
+            </button>
+            <button onClick={()=>navigate("/settings")} className="cursor-pointer relative rounded-full p-2 transition hover:bg-gray-700">
+              <FaCog size={ICON_SIZE} />
+            </button>
+        </div>
+      </div>
     </header>
   );
 };

@@ -1,4 +1,4 @@
-import { IMAGE_BASE_URL, IMAGE_PLACEHOLDER } from "@/core";
+import { IMAGE_BASE_URL, IMAGE_PLACEHOLDER, type ImageCell } from "@/core";
 
 type ImageGridProps = {
   results: Array<{
@@ -8,9 +8,10 @@ type ImageGridProps = {
     secondaryText?: string;
   }>;
   onClick?: (id: number) => void;
+  children?: (image:ImageCell) => React.ReactNode;
 };
 
-export const ImageGrid = ({ results, onClick }: ImageGridProps) => {
+export const ImageGrid = ({ results, onClick, children }: ImageGridProps) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-5">
       {results.map((result) => (
@@ -19,6 +20,12 @@ export const ImageGrid = ({ results, onClick }: ImageGridProps) => {
           key={result.id}
           onClick={() => onClick?.(result.id)}
         >
+          {children?.({
+            id: result.id,
+            imageUrl: result.imagePath ? `${IMAGE_BASE_URL}${result.imagePath}` : IMAGE_PLACEHOLDER,
+            primaryText: result.primaryText,
+            secondaryText: result.secondaryText,
+          })}
           <img
             alt={result.primaryText}
             className="h-[280px] w-full object-cover"

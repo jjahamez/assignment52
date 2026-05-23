@@ -23,7 +23,7 @@ export const MovieView = () => {
     <Modal onClose={() => navigate(-1)}>
       <div className="space-y-6 p-6">
         <div
-          className="h-[420px] rounded-2xl bg-cover bg-center"
+          className="h-[420px] rounded-2xl bg-center bg-cover"
           style={{
             backgroundImage: `url(${ORIGINAL_IMAGE_BASE_URL}${data.backdrop_path})`,
           }}
@@ -31,7 +31,7 @@ export const MovieView = () => {
         <div className="flex gap-8">
           <img alt={data.title} className="h-[330px] w-[220px] rounded-xl object-cover" src={`${IMAGE_BASE_URL}${data.poster_path}`} />
           <div className="flex-1 space-y-4">
-            <h1 className="text-3xl font-bold">{data.title ?? data.name}</h1>
+            <h1 className="font-bold text-3xl">{data.title ?? data.name}</h1>
             <p className="flex items-center gap-2 text-gray-400">
               <FaCalendarAlt />
               {data.release_date ?? data.first_air_date}

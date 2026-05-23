@@ -2,9 +2,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "@/layouts/MainLayout";
 import {
   CareerView,
+  CartView,
   CreditsView,
   EpisodeView,
   ErrorView,
+  FavoritesView,
   GenreView,
   HomeView,
   ImagesView,
@@ -15,6 +17,7 @@ import {
   ReviewsView,
   SearchView,
   SeasonsView,
+  SettingsView,
   TelevisionView,
   TrailersView,
   TrendingView,
@@ -44,6 +47,9 @@ export const App = () => {
           <Route element={<CareerView />} path="career" />
           <Route element={<ImagesView />} path="images" />
         </Route>
+        <Route path="/settings" element={<SettingsView />} />
+        <Route path="/cart" element={<CartView />} />
+        <Route path="/favorites" element={<FavoritesView />} />
       </Route>
       <Route element={<ErrorView />} path="*" />
     </Routes>
