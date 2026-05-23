@@ -1,6 +1,6 @@
-import { API_KEY } from '@/core';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { API_KEY } from "@/core";
 
 export function useTmdb<T>(url: string, params: Record<string, unknown>, deps: unknown[]) {
   const [data, setData] = useState<T | null>(null);
@@ -27,7 +27,8 @@ export function useTmdb<T>(url: string, params: Record<string, unknown>, deps: u
     fetchData();
 
     return () => controller.abort();
-  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: deps passed dynamically
+  }, deps);
 
   return { data };
 }

@@ -8,7 +8,7 @@ export type MoviesResponse = {
   }>;
   total_pages: number;
 };
- 
+
 export type TvResponse = {
   results: Array<{
     id: number;
@@ -18,7 +18,7 @@ export type TvResponse = {
   }>;
   total_pages: number;
 };
- 
+
 export type GenreResponse = {
   results: Array<{
     id: number;
@@ -29,7 +29,7 @@ export type GenreResponse = {
   }>;
   total_pages: number;
 };
- 
+
 export type MovieRepsonse = {
   id: number;
   title?: string;
@@ -51,7 +51,7 @@ export type MovieRepsonse = {
     }>;
   };
 };
- 
+
 export type CreditsResponse = {
   cast: Array<{
     id: number;
@@ -60,7 +60,7 @@ export type CreditsResponse = {
     character: string;
   }>;
 };
- 
+
 export type ReviewsResponse = {
   results: Array<{
     id: string;
@@ -68,7 +68,7 @@ export type ReviewsResponse = {
     content: string;
   }>;
 };
- 
+
 export type SeasonsResponse = {
   seasons: Array<{
     id: number;
@@ -78,7 +78,7 @@ export type SeasonsResponse = {
     air_date: string;
   }>;
 };
- 
+
 export type EpisodeResponse = {
   name: string;
   air_date: string;
@@ -91,7 +91,7 @@ export type EpisodeResponse = {
     air_date: string;
   }>;
 };
- 
+
 export type PersonResponse = {
   id: number;
   name: string;
@@ -100,7 +100,7 @@ export type PersonResponse = {
   birthday: string;
   profile_path: string;
 };
- 
+
 export type CareerResponse = {
   cast: Array<{
     id: number;
@@ -110,13 +110,13 @@ export type CareerResponse = {
     character: string;
   }>;
 };
- 
+
 export type ImagesResponse = {
   profiles: Array<{
     file_path: string;
   }>;
 };
- 
+
 export type SearchResponse = {
   results: Array<{
     id: number;

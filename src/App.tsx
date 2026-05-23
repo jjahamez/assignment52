@@ -1,33 +1,51 @@
-import { MainLayout } from '@/layouts/MainLayout';
-import { ErrorView, GenreView, HomeView, NowPlayingView, SearchView, TrendingView, MoviesView, MovieView, CreditsView, ReviewsView, TrailersView, TelevisionView, SeasonsView, PersonView, CareerView, ImagesView, EpisodeView } from '@/views';
-import { Navigate, Route, Routes } from 'react-router-dom';
- 
+import { Navigate, Route, Routes } from "react-router-dom";
+import { MainLayout } from "@/layouts/MainLayout";
+import {
+  CareerView,
+  CreditsView,
+  EpisodeView,
+  ErrorView,
+  GenreView,
+  HomeView,
+  ImagesView,
+  MoviesView,
+  MovieView,
+  NowPlayingView,
+  PersonView,
+  ReviewsView,
+  SearchView,
+  SeasonsView,
+  TelevisionView,
+  TrailersView,
+  TrendingView,
+} from "@/views";
+
 export const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomeView />} />
+      <Route element={<HomeView />} path="/" />
       <Route element={<MainLayout />}>
-        <Route path="movies" element={<Navigate to="/movies/category/popular" />} />
-        <Route path="tv" element={<Navigate to="/tv/category/airing_today" />} />
-        <Route path="now-playing" element={<NowPlayingView />} />
-        <Route path="trending/:category" element={<TrendingView />} />
-        <Route path="search" element={<SearchView />} />
-        <Route path="movies/category/:category" element={<MoviesView />} />
-        <Route path="tv/category/:category" element={<TelevisionView />} />
-        <Route path="genre/:mediaType/:genre" element={<GenreView />} />
-        <Route path=":category/:id" element={<MovieView />}>
-          <Route path="seasons" element={<SeasonsView />} />
-          <Route path="season/:season" element={<EpisodeView />} />
-          <Route path="credits" element={<CreditsView />} />
-          <Route path="trailers" element={<TrailersView />} />
-          <Route path="reviews" element={<ReviewsView />} />
+        <Route element={<Navigate to="/movies/category/popular" />} path="movies" />
+        <Route element={<Navigate to="/tv/category/airing_today" />} path="tv" />
+        <Route element={<NowPlayingView />} path="now-playing" />
+        <Route element={<TrendingView />} path="trending/:category" />
+        <Route element={<SearchView />} path="search" />
+        <Route element={<MoviesView />} path="movies/category/:category" />
+        <Route element={<TelevisionView />} path="tv/category/:category" />
+        <Route element={<GenreView />} path="genre/:mediaType/:genre" />
+        <Route element={<MovieView />} path=":category/:id">
+          <Route element={<SeasonsView />} path="seasons" />
+          <Route element={<EpisodeView />} path="season/:season" />
+          <Route element={<CreditsView />} path="credits" />
+          <Route element={<TrailersView />} path="trailers" />
+          <Route element={<ReviewsView />} path="reviews" />
         </Route>
-        <Route path="person/:id" element={<PersonView />}>
-          <Route path="career" element={<CareerView />} />
-          <Route path="images" element={<ImagesView />} />
+        <Route element={<PersonView />} path="person/:id">
+          <Route element={<CareerView />} path="career" />
+          <Route element={<ImagesView />} path="images" />
         </Route>
       </Route>
-      <Route path="*" element={<ErrorView />} />
+      <Route element={<ErrorView />} path="*" />
     </Routes>
   );
 };

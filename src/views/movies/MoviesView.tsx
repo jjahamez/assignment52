@@ -1,9 +1,9 @@
-import { ImageGrid, LinkGroup, Pagination } from '@/components';
-import { MOVIE_ENDPOINT } from '@/core/constants';
-import type { MoviesResponse } from '@/core/types';
-import { useTmdb } from '@/hooks';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ImageGrid, LinkGroup, Pagination } from "@/components";
+import { MOVIE_ENDPOINT } from "@/core/constants";
+import type { MoviesResponse } from "@/core/types";
+import { useTmdb } from "@/hooks";
 
 export const MoviesView = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export const MoviesView = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [category]);
+  }, []);
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
@@ -28,17 +28,17 @@ export const MoviesView = () => {
 
   return (
     <div className="min-h-screen bg-gray-900/90">
-      <section className="max-w-[1200px] mx-auto p-5 space-y-5">
+      <section className="mx-auto max-w-[1200px] space-y-5 p-5">
         <LinkGroup
           options={[
-            { label: 'Popular', to: '/movies/category/popular' },
-            { label: 'Now Playing', to: '/movies/category/now_playing' },
-            { label: 'Top Rated', to: '/movies/category/top_rated' },
-            { label: 'Upcoming', to: '/movies/category/upcoming' },
+            { label: "Popular", to: "/movies/category/popular" },
+            { label: "Now Playing", to: "/movies/category/now_playing" },
+            { label: "Top Rated", to: "/movies/category/top_rated" },
+            { label: "Upcoming", to: "/movies/category/upcoming" },
           ]}
         />
-        <ImageGrid results={gridData} onClick={(id) => navigate(`/movies/${id}/credits`)} />
-        <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
+        <ImageGrid onClick={(id) => navigate(`/movies/${id}/credits`)} results={gridData} />
+        <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
       </section>
     </div>
   );

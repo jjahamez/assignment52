@@ -1,26 +1,40 @@
-import { FaGithub, FaLinkedin, FaWikipediaW } from 'react-icons/fa';
- 
+import { FaGithub, FaLinkedin, FaWikipediaW } from "react-icons/fa";
+
 export const Footer = () => {
   return (
-    <footer className="w-full border-t border-gray-800 bg-gray-900 text-gray-500">
-      <div className="max-w-5xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+    <footer className="w-full border-gray-800 border-t bg-gray-900 text-gray-500">
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-5 text-sm sm:flex-row">
         <p>Built with React, Vite, Tailwind, React Router, and the TMDB API</p>
         <div className="flex items-center gap-4">
-          <a href="https://github.com/jjahamezz" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-white transition">
+          <a
+            className="flex items-center gap-2 transition hover:text-white"
+            href="https://github.com/jjahamezz"
+            rel="noreferrer"
+            target="_blank"
+          >
             <FaGithub />
             <span>GitHub</span>
           </a>
-          <a href="https://www.linkedin.com/in/stephen-chen-377b543a9/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-white transition">
+          <a
+            className="flex items-center gap-2 transition hover:text-white"
+            href="https://www.linkedin.com/in/stephen-chen-377b543a9/"
+            rel="noreferrer"
+            target="_blank"
+          >
             <FaLinkedin />
             <span>LinkedIn</span>
           </a>
-          <a href="https://en.wikipedia.org/wiki/LeBron_James" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-white transition">
+          <a
+            className="flex items-center gap-2 transition hover:text-white"
+            href="https://en.wikipedia.org/wiki/LeBron_James"
+            rel="noreferrer"
+            target="_blank"
+          >
             <FaWikipediaW />
             <span>LeBron James</span>
-            </a>
+          </a>
         </div>
       </div>
     </footer>
   );
 };
- 

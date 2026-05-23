@@ -1,34 +1,34 @@
-import { ImageGrid, LinkGroup, Pagination } from '@/components';
-import { GENRE_ENDPOINT } from '@/core/constants';
-import type { GenreResponse } from '@/core/types';
-import { useTmdb } from '@/hooks';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ImageGrid, LinkGroup, Pagination } from "@/components";
+import { GENRE_ENDPOINT } from "@/core/constants";
+import type { GenreResponse } from "@/core/types";
+import { useTmdb } from "@/hooks";
 
 const MOVIE_GENRES = [
-  { name: 'Action', id: 28 },
-  { name: 'Adventure', id: 12 },
-  { name: 'Animation', id: 16 },
-  { name: 'Crime', id: 80 },
-  { name: 'Family', id: 10751 },
-  { name: 'Fantasy', id: 14 },
-  { name: 'History', id: 36 },
-  { name: 'Horror', id: 27 },
-  { name: 'Mystery', id: 9648 },
-  { name: 'Sci-Fi', id: 878 },
+  { id: 28, name: "Action" },
+  { id: 12, name: "Adventure" },
+  { id: 16, name: "Animation" },
+  { id: 80, name: "Crime" },
+  { id: 10751, name: "Family" },
+  { id: 14, name: "Fantasy" },
+  { id: 36, name: "History" },
+  { id: 27, name: "Horror" },
+  { id: 9648, name: "Mystery" },
+  { id: 878, name: "Sci-Fi" },
 ];
 
 const TV_GENRES = [
-  { name: 'Action', id: 10759 },
-  { name: 'Animation', id: 16 },
-  { name: 'Comedy', id: 35 },
-  { name: 'Crime', id: 80 },
-  { name: 'Documentary', id: 99 },
-  { name: 'Drama', id: 18 },
-  { name: 'Family', id: 10751 },
-  { name: 'Kids', id: 10762 },
-  { name: 'Mystery', id: 9648 },
-  { name: 'Sci-Fi', id: 10765 },
+  { id: 10759, name: "Action" },
+  { id: 16, name: "Animation" },
+  { id: 35, name: "Comedy" },
+  { id: 80, name: "Crime" },
+  { id: 99, name: "Documentary" },
+  { id: 18, name: "Drama" },
+  { id: 10751, name: "Family" },
+  { id: 10762, name: "Kids" },
+  { id: 9648, name: "Mystery" },
+  { id: 10765, name: "Sci-Fi" },
 ];
 
 export const GenreView = () => {
@@ -36,25 +36,21 @@ export const GenreView = () => {
   const { mediaType, genre } = useParams();
   const [page, setPage] = useState<number>(1);
 
-  const genres = mediaType === 'tv' ? TV_GENRES : MOVIE_GENRES;
+  const genres = mediaType === "tv" ? TV_GENRES : MOVIE_GENRES;
   const genreId = genres.find((item) => item.name.toLowerCase() === genre)?.id;
 
-  const { data } = useTmdb<GenreResponse>(
-    `${GENRE_ENDPOINT}/${mediaType}`,
-    { with_genres: genreId, page },
-    [mediaType, genreId, page]
-  );
+  const { data } = useTmdb<GenreResponse>(`${GENRE_ENDPOINT}/${mediaType}`, { page, with_genres: genreId }, [mediaType, genreId, page]);
 
   const gridData = (data?.results ?? []).map((result) => ({
     id: result.id,
     imagePath: result.poster_path,
-    primaryText: result.original_title ?? result.name ?? '',
+    primaryText: result.original_title ?? result.name ?? "",
     secondaryText: `⭐ ${result.vote_average.toFixed(1)}`,
   }));
 
   useEffect(() => {
     setPage(1);
-  }, [mediaType, genre]);
+  }, []);
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
@@ -62,11 +58,11 @@ export const GenreView = () => {
 
   return (
     <div className="min-h-screen bg-green-950/90">
-      <section className="max-w-[1200px] mx-auto p-5 space-y-5">
+      <section className="mx-auto max-w-[1200px] space-y-5 p-5">
         <LinkGroup
           options={[
-            { label: 'Movies', to: `/genre/movie/action`, match: ['/genre/movie/:genre'] },
-            { label: 'TV', to: `/genre/tv/action`, match: ['/genre/tv/:genre'] },
+            { label: "Movies", match: ["/genre/movie/:genre"], to: `/genre/movie/action` },
+            { label: "TV", match: ["/genre/tv/:genre"], to: `/genre/tv/action` },
           ]}
         />
         <LinkGroup
@@ -76,12 +72,10 @@ export const GenreView = () => {
           }))}
         />
         <ImageGrid
+          onClick={(id) => (mediaType === "movie" ? navigate(`/movies/${id}/credits`) : navigate(`/tv/${id}/seasons`))}
           results={gridData}
-          onClick={(id) =>
-            mediaType === 'movie' ? navigate(`/movies/${id}/credits`) : navigate(`/tv/${id}/seasons`)
-          }
         />
-        <Pagination page={page} maxPages={data.total_pages} onClick={setPage} />
+        <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
       </section>
     </div>
   );
