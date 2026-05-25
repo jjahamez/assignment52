@@ -8,7 +8,7 @@ type ImageGridProps = {
     secondaryText?: string;
   }>;
   onClick?: (id: number) => void;
-  children?: (image:ImageCell) => React.ReactNode;
+  children?: (image: ImageCell) => React.ReactNode;
 };
 
 export const ImageGrid = ({ results, onClick, children }: ImageGridProps) => {

@@ -1,4 +1,3 @@
 export const CartView = () => {
-  return (
-    <section></section>
-  )}
+  return <section></section>;
+};

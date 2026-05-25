@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { UserContext } from "@/context";
-import { FAVORITES_KEY, GENRES_KEY, PURCHASES_KEY, USERNAME_KEY, type ImageCell } from "@/core";
-import  { useLocalStorage } from "@/hooks";
+import { FAVOURITES_KEY, GENRES_KEY, type ImageCell, PURCHASES_KEY, USERNAME_KEY } from "@/core";
+import { useLocalStorage } from "@/hooks";
 
 type UserProviderProps = {
   children: ReactNode;
@@ -9,7 +9,7 @@ type UserProviderProps = {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [userName, setUserName] = useLocalStorage<string, string>(USERNAME_KEY, "User");
-  const [favorites, setFavorites] = useLocalStorage<Map<number, ImageCell>, [number, ImageCell][]>(FAVORITES_KEY, new Map(), {
+  const [favourites, setfavourites] = useLocalStorage<Map<number, ImageCell>, [number, ImageCell][]>(FAVOURITES_KEY, new Map(), {
     deserialize: (entries) => new Map(entries),
     serialize: (map) => Array.from(map.entries()),
   });
@@ -19,8 +19,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   });
   const [genres, setGenres] = useLocalStorage<string[], string[]>(GENRES_KEY, []);
 
-  const toggleFavorite = (image: ImageCell) => {
-    setFavorites((prev) => {
+  const togglefavourite = (image: ImageCell) => {
+    setfavourites((prev) => {
       const cloned = new Map(prev);
 
       if (cloned.has(image.id)) {
@@ -47,8 +47,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     });
   };
 
-  const clearFavorites = (media: "movie" | "tv") => {
-    setFavorites((prev) => {
+  const clearfavourites = (media: "movie" | "tv") => {
+    setfavourites((prev) => {
       const cloned = new Map(prev);
       for (const [id, image] of cloned.entries()) {
         if (image.media === media) {
@@ -57,10 +57,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       }
       return cloned;
     });
-  }
+  };
   const clearPurchases = () => {
     setPurchases(new Map());
-  }
+  };
 
   const toggleGenre = (genre: string) => {
     setGenres((prev) => {
@@ -73,21 +73,21 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       }
       return cloned;
     });
-  }
+  };
 
-return (
+  return (
     <UserContext.Provider
       value={{
-        favorites,
-        setUserName,
-        toggleFavorite,
-        userName,
-        purchases,
-        togglePurchase,
-        clearFavorites,
-        toggleGenre,
+        clearfavourites,
+        clearPurchases,
+        favourites,
         genres,
-        clearPurchases
+        purchases,
+        setUserName,
+        togglefavourite,
+        toggleGenre,
+        togglePurchase,
+        userName,
       }}
     >
       {children}

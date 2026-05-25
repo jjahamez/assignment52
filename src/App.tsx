@@ -6,7 +6,7 @@ import {
   CreditsView,
   EpisodeView,
   ErrorView,
-  FavoritesView,
+  FavouritesView,
   GenreView,
   HomeView,
   ImagesView,
@@ -47,9 +47,9 @@ export const App = () => {
           <Route element={<CareerView />} path="career" />
           <Route element={<ImagesView />} path="images" />
         </Route>
-        <Route path="/settings" element={<SettingsView />} />
-        <Route path="/cart" element={<CartView />} />
-        <Route path="/favorites" element={<FavoritesView />} />
+        <Route element={<SettingsView />} path="/settings" />
+        <Route element={<CartView />} path="/cart" />
+        <Route element={<FavouritesView />} path="/favourites" />
       </Route>
       <Route element={<ErrorView />} path="*" />
     </Routes>
