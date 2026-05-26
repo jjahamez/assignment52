@@ -5,7 +5,7 @@ import type { ImageCell } from "@/core/types/types";
 import { favouriteAction } from "@/core/utils/ImageActions";
 import { useUserContext } from "@/hooks/useUserContext";
 
-export const favouritesView = () => {
+export const FavouritesView = () => {
   const [active, setActive] = useState<"movie" | "tv">("movie");
   const { favourites, clearfavourites, togglefavourite } = useUserContext();
 
