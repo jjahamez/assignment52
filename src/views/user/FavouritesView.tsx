@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, ImageGrid } from "@/components";
 import { ImageOverlay } from "@/components/controls/images/ImageOverlay";
-import type { ImageCell } from "@/core/types/types";
-import { favouriteAction } from "@/core/utils/ImageActions";
-import { useUserContext } from "@/hooks/useUserContext";
+import type { ImageCell } from "@/core/types";
+import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
+import { useUserContext } from "@/hooks";
 
 export const FavouritesView = () => {
   const [active, setActive] = useState<"movie" | "tv">("movie");
-  const { favourites, clearfavourites, togglefavourite } = useUserContext();
+  const { favourites, purchases, clearfavourites, togglefavourite, togglePurchase } = useUserContext();
 
   const favouriteResults = Array.from(favourites.values())
     .filter((fav) => fav.media === active)
@@ -32,41 +32,54 @@ export const FavouritesView = () => {
         </div>
       </div>
       <section className="space-y-4">
-        <div className="images-center flex justify-between">
-          <h2 className="font-semibold text-gray-300 text-xl">{active === "movie" ? "favourite Movies" : "favourite TV Shows"}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-semibold text-gray-300 text-xl">{active === "movie" ? "Favourite Movies" : "Favourite TV Shows"}</h2>
           {favouriteResults.length > 0 && (
             <Button onClick={() => clearfavourites(active)} variant="red">
               Clear
             </Button>
           )}
         </div>
-        <div>
-          {favouriteResults.length > 0 ? (
-            <ImageGrid onClick={(_id) => clearfavourites(active)} results={favouriteResults}>
-              {(image) => (
-                <ImageOverlay
-                  actions={[
-                    favouriteAction(
-                      (image: ImageCell) => favourites.has(image.id),
-                      () =>
-                        togglefavourite({
-                          id: image.id,
-                          imageUrl: image.imageUrl,
-                          media: image.media,
-                          primaryText: image.primaryText,
-                          secondaryText: image.secondaryText,
-                        }),
-                      "right",
-                    ),
-                  ]}
-                  image={image}
-                />
-              )}
-            </ImageGrid>
-          ) : (
-            <p className="col-span-5 text-center text-gray-400">No favourites added yet.</p>
-          )}
-        </div>
+        {favouriteResults.length > 0 ? (
+          <ImageGrid results={favouriteResults}>
+            {(image: ImageCell) => (
+              <ImageOverlay
+                actions={[
+                  favouriteAction(
+                    (img: ImageCell) => favourites.has(img.id),
+                    (img: ImageCell) =>
+                      togglefavourite({
+                        id: img.id,
+                        imageUrl: img.imageUrl,
+                        media: img.media,
+                        primaryText: img.primaryText,
+                        secondaryText: img.secondaryText,
+                      }),
+                    "right",
+                  ),
+                  cartAction(
+                    (img: ImageCell) => purchases.has(img.id),
+                    (img: ImageCell) => {
+                      if (!favourites.has(img.id)) {
+                        togglePurchase({
+                          id: img.id,
+                          imageUrl: img.imageUrl,
+                          media: img.media,
+                          primaryText: img.primaryText,
+                          secondaryText: img.secondaryText,
+                        });
+                      }
+                    },
+                    "left",
+                  ),
+                ]}
+                image={image}
+              />
+            )}
+          </ImageGrid>
+        ) : (
+          <p className="col-span-5 text-center text-gray-400">No favourites added yet.</p>
+        )}
       </section>
     </section>
   );

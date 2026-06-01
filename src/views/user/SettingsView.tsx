@@ -1,25 +1,80 @@
-import { useNavigate } from "react";
-import { Button, ImageGrid } from "@/components";
-import { ImageOverlay } from "@/components/controls/images/ImageOverlay";
-import type { ImageCell } from "@/core/types/types";
-import { favouriteAction } from "@/core/utils/ImageActions";
+import { useState } from "react";
+import { Button } from "@/components";
+import { useUserContext } from "@/hooks";
+
+const MOVIE_GENRES = ["Action", "Comedy", "Drama", "Horror", "Romance", "Sci-Fi", "Thriller", "Animation"];
+const TV_GENRES = ["Action", "Comedy", "Drama", "Reality", "Documentary", "Sci-Fi", "Crime", "Fantasy"];
+
 export const SettingsView = () => {
-  return <section>
-      const navigate = useNavigate(); 
-    if (user) {
-      <div className="flex items-center gap-5">
-        <img alt="profile" className="rounded-full w-20 h-20" src={user.imageUrl ?? "https://via.placeholder.com/150"} />
-        <div>
-          <h2 className="font-semibold text-lg">{user.name}</h2>
-          <p className="text-gray-400 text-sm">{user.email}</p>
+  const { userName, setUserName, genres, toggleGenre } = useUserContext();
+  const [nameInput, setNameInput] = useState(userName);
+
+  const handleSave = () => {
+    if (nameInput.trim()) {
+      setUserName(nameInput.trim());
+    }
+  };
+
+  return (
+    <section className="mx-auto max-w-2xl space-y-10 p-5">
+      <h1 className="font-bold text-3xl">Settings</h1>
+
+      <div className="space-y-3 rounded-xl bg-gray-800 p-5">
+        <h2 className="font-semibold text-xl">Username</h2>
+        <div className="flex gap-3">
+          <input
+            className="flex-1 rounded-md bg-gray-700 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setNameInput(e.target.value)}
+            placeholder="Enter username"
+            type="text"
+            value={nameInput}
+          />
+          <Button onClick={handleSave} variant="primary">
+            Save
+          </Button>
+        </div>
+        <p className="text-gray-400 text-sm">Current: {userName}</p>
+      </div>
+
+      <div className="space-y-3 rounded-xl bg-gray-800 p-5">
+        <h2 className="font-semibold text-xl">Movie Genre Preferences</h2>
+        <div className="flex flex-wrap gap-2">
+          {MOVIE_GENRES.map((genre) => (
+            <button
+              className={`rounded-full border px-4 py-1 text-sm transition ${
+                genres.includes(genre)
+                  ? "border-blue-500 bg-blue-500 text-white"
+                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+              }`}
+              key={genre}
+              onClick={() => toggleGenre(genre)}
+              type="button"
+            >
+              {genre}
+            </button>
+          ))}
         </div>
       </div>
-    }
-   <section className="flex flex-col items-center gap-5 py-10">
-    <p className="text-gray-400">You are not logged in.</p>
-    <Button onClick={() => navigate("/")} variant="primary">
-      Go to Home
-    </Button>
-}
-  </section>;
+
+      <div className="space-y-3 rounded-xl bg-gray-800 p-5">
+        <h2 className="font-semibold text-xl">TV Genre Preferences</h2>
+        <div className="flex flex-wrap gap-2">
+          {TV_GENRES.map((genre) => (
+            <button
+              className={`rounded-full border px-4 py-1 text-sm transition ${
+                genres.includes(genre)
+                  ? "border-blue-500 bg-blue-500 text-white"
+                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+              }`}
+              key={genre}
+              onClick={() => toggleGenre(genre)}
+              type="button"
+            >
+              {genre}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };

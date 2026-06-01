@@ -4,12 +4,13 @@ import { ImageGrid, LinkGroup, Pagination } from "@/components";
 import { ImageOverlay } from "@/components/controls/images/ImageOverlay";
 import { MOVIE_ENDPOINT } from "@/core/constants";
 import type { ImageCell, MoviesResponse } from "@/core/types";
-import { favouriteAction } from "@/core/utils/ImageActions";
+import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
+import { calculatePrice } from "@/core/utils/pricing";
 import { useTmdb, useUserContext } from "@/hooks";
 
 export const MoviesView = () => {
   const navigate = useNavigate();
-  const { favourites, togglefavourite } = useUserContext();
+  const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
   const [page, setPage] = useState<number>(1);
   const { category } = useParams();
   const { data } = useTmdb<MoviesResponse>(`${MOVIE_ENDPOINT}/${category}`, { page }, [category, page]);
@@ -46,16 +47,35 @@ export const MoviesView = () => {
             <ImageOverlay
               actions={[
                 favouriteAction(
-                  (image: ImageCell) => favourites.has(image.id),
-                  () =>
-                    togglefavourite({
-                      id: image.id,
-                      imageUrl: image.imageUrl,
-                      media: "movie",
-                      primaryText: image.primaryText,
-                      secondaryText: image.secondaryText,
-                    }),
+                  (img: ImageCell) => favourites.has(img.id),
+                  (img: ImageCell) => {
+                    if (!purchases.has(img.id)) {
+                      togglefavourite({
+                        id: img.id,
+                        imageUrl: img.imageUrl,
+                        media: "movie",
+                        primaryText: img.primaryText,
+                        secondaryText: img.secondaryText,
+                      });
+                    }
+                  },
                   "right",
+                ),
+                cartAction(
+                  (img: ImageCell) => purchases.has(img.id),
+                  (img: ImageCell) => {
+                    if (!favourites.has(img.id)) {
+                      const releaseDate = undefined;
+                      togglePurchase({
+                        id: img.id,
+                        imageUrl: img.imageUrl,
+                        media: "movie",
+                        price: calculatePrice(releaseDate),
+                        primaryText: img.primaryText,
+                      });
+                    }
+                  },
+                  "left",
                 ),
               ]}
               image={image}

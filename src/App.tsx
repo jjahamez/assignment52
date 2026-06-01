@@ -1,6 +1,26 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "@/layouts/MainLayout";
-import { CareerView, CartView, CreditsView, EpisodeView, ErrorView, FavouritesView, GenreView, HomeView, ImagesView, MoviesView, MovieView, NowPlayingView, PersonView, ReviewsView, SearchView, SeasonsView, SettingsView, TelevisionView, TrailersView, TrendingView,
+import {
+  CareerView,
+  CartView,
+  CreditsView,
+  EpisodeView,
+  ErrorView,
+  FavouritesView,
+  GenreView,
+  HomeView,
+  ImagesView,
+  MoviesView,
+  MovieView,
+  NowPlayingView,
+  PersonView,
+  ReviewsView,
+  SearchView,
+  SeasonsView,
+  SettingsView,
+  TelevisionView,
+  TrailersView,
+  TrendingView,
 } from "@/views";
 
 export const App = () => {

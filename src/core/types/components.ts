@@ -140,7 +140,12 @@ export type ImageCell = {
   imageUrl: string;
   primaryText?: string;
   secondaryText?: string;
+  showId?: number;
+  seasonId?: number;
+  season?: number;
   media?: Media;
+  releaseDate?: string;
+  price?: number;
 };
 
 export type ImageAction = {
@@ -150,5 +155,3 @@ export type ImageAction = {
   onClick: (image: ImageCell) => void;
   position: "left" | "right";
 };
-
-
