@@ -41,7 +41,9 @@ export const SettingsView = () => {
           {MOVIE_GENRES.map((genre) => (
             <button
               className={`rounded-full border px-4 py-1 text-sm transition ${
-                movieGenres.includes(genre) ? "border-blue-500 bg-blue-500 text-white" : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+                movieGenres.includes(genre)
+                  ? "border-blue-500 bg-blue-500 text-white"
+                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
               }`}
               key={genre}
               onClick={() => toggleMovieGenre(genre)}
@@ -60,7 +62,9 @@ export const SettingsView = () => {
           {TV_GENRES.map((genre) => (
             <button
               className={`rounded-full border px-4 py-1 text-sm transition ${
-                tvGenres.includes(genre) ? "border-blue-500 bg-blue-500 text-white" : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+                tvGenres.includes(genre)
+                  ? "border-blue-500 bg-blue-500 text-white"
+                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
               }`}
               key={genre}
               onClick={() => toggleTvGenre(genre)}

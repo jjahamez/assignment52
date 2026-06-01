@@ -80,13 +80,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         clearPurchases,
         favourites,
         movieGenres,
-        tvGenres,
         purchases,
         setUserName,
         togglefavourite,
         toggleMovieGenre,
-        toggleTvGenre,
         togglePurchase,
+        toggleTvGenre,
+        tvGenres,
         userName,
       }}
     >

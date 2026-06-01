@@ -9,7 +9,7 @@ export type MoviesResponse = {
     original_title: string;
     poster_path: string;
     vote_average: number;
-     release_date: string;
+    release_date: string;
   }>;
   total_pages: number;
 };

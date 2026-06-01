@@ -7,7 +7,6 @@ import type { ImageCell, SearchResponse } from "@/core/types";
 import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
 import { calculatePrice } from "@/core/utils/pricing";
 import { useDebounce, useTmdb, useUserContext } from "@/hooks";
- 
 
 export const SearchView = () => {
   const navigate = useNavigate();
@@ -28,16 +27,16 @@ export const SearchView = () => {
   const gridData = (data?.results ?? []).map((result) => ({
     id: result.id,
     imagePath: result.profile_path ?? result.poster_path ?? null,
-    primaryText: result.name ?? result.title ?? "",
     media: type === "person" ? undefined : (type as "movie" | "tv"),
     price: calculatePrice(undefined),
+    primaryText: result.name ?? result.title ?? "",
   }));
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
 
-   return (
+  return (
     <div className="min-h-screen bg-zinc-800/90">
       <section className="mx-auto max-w-[1200px] space-y-5 p-10">
         <h1 className="font-bold text-3xl">Results for: {query}</h1>
@@ -55,7 +54,8 @@ export const SearchView = () => {
                     favouriteAction(
                       (img: ImageCell) => favourites.has(img.id),
                       (img: ImageCell) => {
-                        if (purchases.has(img.id)) togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        if (purchases.has(img.id))
+                          togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                         togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                       },
                       "right",
@@ -63,8 +63,15 @@ export const SearchView = () => {
                     cartAction(
                       (img: ImageCell) => purchases.has(img.id),
                       (img: ImageCell) => {
-                        if (favourites.has(img.id)) togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                        togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, price: img.price });
+                        if (favourites.has(img.id))
+                          togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        togglePurchase({
+                          id: img.id,
+                          imageUrl: img.imageUrl,
+                          media: img.media,
+                          price: img.price,
+                          primaryText: img.primaryText,
+                        });
                       },
                       "left",
                     ),

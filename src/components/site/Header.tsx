@@ -8,7 +8,7 @@ import { useUserContext } from "@/hooks/useUserContext";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { favourites, purchases, userName  } = useUserContext();
+  const { favourites, purchases, userName } = useUserContext();
   const [query, setQuery] = useState("");
   const [type, setType] = useState<string>("movie");
 
@@ -17,7 +17,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="border-b border-gray-700"> 
+    <header className="border-gray-700 border-b">
       <nav className={`flex flex-wrap items-center gap-4 p-4 transition-colors duration-300 ${getHeaderColor()}`}>
         <h1 className="shrink-0 font-bold text-2xl text-white">TMDB Browser</h1>
         <div className="flex flex-wrap gap-2">

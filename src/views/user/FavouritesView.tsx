@@ -6,30 +6,30 @@ import type { ImageCell } from "@/core/types";
 import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
 import { calculatePrice } from "@/core/utils/pricing";
 import { useUserContext } from "@/hooks";
- 
+
 export const FavouritesView = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState<"movie" | "tv">("movie");
   const { favourites, purchases, clearfavourites, togglefavourite, togglePurchase } = useUserContext();
- 
+
   const favouriteResults = Array.from(favourites.values())
     .filter((fav) => fav.media === active)
     .map((fav) => ({
       id: fav.id,
       imagePath: fav.imageUrl ?? null,
-      primaryText: fav.primaryText ?? "Untitled",
-      secondaryText: fav.secondaryText,
       media: fav.media,
       price: fav.price,
+      primaryText: fav.primaryText ?? "Untitled",
+      secondaryText: fav.secondaryText,
     }));
- 
+
   const handleClick = (id: number) => {
     const item = favourites.get(id);
     if (!item) return;
     if (item.media === "movie") navigate(`/movies/${id}/credits`);
     else navigate(`/tv/${id}/seasons`);
   };
- 
+
   return (
     <section className="mx-auto max-w-7xl space-y-10 p-5">
       <div className="flex items-center justify-between">
@@ -60,16 +60,30 @@ export const FavouritesView = () => {
                   favouriteAction(
                     (img: ImageCell) => favourites.has(img.id),
                     (img: ImageCell) => {
-                      if (purchases.has(img.id)) togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                      togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, secondaryText: img.secondaryText });
+                      if (purchases.has(img.id))
+                        togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                      togglefavourite({
+                        id: img.id,
+                        imageUrl: img.imageUrl,
+                        media: img.media,
+                        primaryText: img.primaryText,
+                        secondaryText: img.secondaryText,
+                      });
                     },
                     "right",
                   ),
                   cartAction(
                     (img: ImageCell) => purchases.has(img.id),
                     (img: ImageCell) => {
-                      if (favourites.has(img.id)) togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                      togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, price: calculatePrice(undefined) });
+                      if (favourites.has(img.id))
+                        togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                      togglePurchase({
+                        id: img.id,
+                        imageUrl: img.imageUrl,
+                        media: img.media,
+                        price: calculatePrice(undefined),
+                        primaryText: img.primaryText,
+                      });
                     },
                     "left",
                   ),
