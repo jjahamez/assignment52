@@ -31,7 +31,7 @@ export const TrendingView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-800/90">
+    <div className="min-h-screen bg-gray-900">
       <section className="mx-auto max-w-[1200px] space-y-5 p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <LinkGroup

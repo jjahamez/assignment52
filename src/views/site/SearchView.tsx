@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ImageGrid, Pagination } from "@/components";
+import { ImageOverlay } from "@/components/controls/images/ImageOverlay";
 import { SEARCH_ENDPOINT } from "@/core/constants";
-import type { SearchResponse } from "@/core/types";
-import { useDebounce, useTmdb } from "@/hooks";
+import type { ImageCell, SearchResponse } from "@/core/types";
+import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
+import { calculatePrice } from "@/core/utils/pricing";
+import { useDebounce, useTmdb, useUserContext } from "@/hooks";
+ 
 
 export const SearchView = () => {
   const navigate = useNavigate();
+  const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState<number>(1);
 
@@ -24,13 +29,15 @@ export const SearchView = () => {
     id: result.id,
     imagePath: result.profile_path ?? result.poster_path ?? null,
     primaryText: result.name ?? result.title ?? "",
+    media: type === "person" ? undefined : (type as "movie" | "tv"),
+    price: calculatePrice(undefined),
   }));
 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
 
-  return (
+   return (
     <div className="min-h-screen bg-zinc-800/90">
       <section className="mx-auto max-w-[1200px] space-y-5 p-10">
         <h1 className="font-bold text-3xl">Results for: {query}</h1>
@@ -40,7 +47,33 @@ export const SearchView = () => {
             else navigate(`/${type === "movie" ? "movies" : "tv"}/${id}/credits`);
           }}
           results={gridData}
-        />
+        >
+          {type !== "person"
+            ? (image: ImageCell) => (
+                <ImageOverlay
+                  actions={[
+                    favouriteAction(
+                      (img: ImageCell) => favourites.has(img.id),
+                      (img: ImageCell) => {
+                        if (purchases.has(img.id)) togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                      },
+                      "right",
+                    ),
+                    cartAction(
+                      (img: ImageCell) => purchases.has(img.id),
+                      (img: ImageCell) => {
+                        if (favourites.has(img.id)) togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, price: img.price });
+                      },
+                      "left",
+                    ),
+                  ]}
+                  image={image}
+                />
+              )
+            : undefined}
+        </ImageGrid>
         {data.results.length ? (
           <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
         ) : (

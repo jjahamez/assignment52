@@ -5,12 +5,14 @@ export type UserContextType = {
   userName: string;
   purchases: Map<number, ImageCell>;
   favourites: Map<number, ImageCell>;
-  genres: string[];
+  movieGenres: string[];
+  tvGenres: string[];
   setUserName: (userName: string) => void;
   togglefavourite: (image: ImageCell) => void;
   togglePurchase: (image: ImageCell) => void;
   clearfavourites: (media: "movie" | "tv") => void;
-  toggleGenre: (genre: string) => void;
+  toggleMovieGenre: (genre: string) => void;
+  toggleTvGenre: (genre: string) => void;
   clearPurchases: () => void;
 };
 

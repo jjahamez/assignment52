@@ -15,6 +15,7 @@ export const TelevisionView = () => {
     id: result.id,
     imagePath: result.poster_path,
     primaryText: result.name,
+    secondaryText: `⭐ ${result.vote_average.toFixed(1)}`,
   }));
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export const TelevisionView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-stone-800/90">
+    <div className="min-h-screen bg-gray-900">
       <section className="mx-auto max-w-[1200px] space-y-5 p-5">
         <LinkGroup
           options={[

@@ -5,13 +5,12 @@ import type { ImageCell } from "@/core/types";
 import { favouriteAction } from "@/core/utils/ImageActions";
 import { formatPrice } from "@/core/utils/pricing";
 import { useUserContext } from "@/hooks";
-
+ 
 export const CartView = () => {
   const navigate = useNavigate();
-  const { purchases, favourites, clearPurchases, togglefavourite, togglePurchase } = useUserContext();
-
-  const cartItems = Array.from(purchases.values());
+  const { purchases, favourites, clearPurchases, togglePurchase, togglefavourite } = useUserContext();
  
+  const cartItems = Array.from(purchases.values());
   const total = cartItems.reduce((sum, item) => sum + (item.price ?? 0), 0);
  
   const gridData = cartItems.map((item) => ({
@@ -19,9 +18,18 @@ export const CartView = () => {
     imagePath: item.imageUrl ?? null,
     primaryText: item.primaryText ?? "Untitled",
     secondaryText: item.price !== undefined ? formatPrice(item.price) : undefined,
+    media: item.media,
+    price: item.price,
   }));
-
-   return (
+ 
+  const handleClick = (id: number) => {
+    const item = purchases.get(id);
+    if (!item) return;
+    if (item.media === "movie") navigate(`/movies/${id}/credits`);
+    else navigate(`/tv/${id}/seasons`);
+  };
+ 
+  return (
     <section className="mx-auto max-w-7xl space-y-10 p-5">
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-3xl">Cart</h1>
@@ -34,7 +42,7 @@ export const CartView = () => {
  
       {cartItems.length > 0 ? (
         <>
-          <ImageGrid results={gridData}>
+          <ImageGrid onClick={handleClick} results={gridData}>
             {(image: ImageCell) => (
               <ImageOverlay
                 actions={[
@@ -63,9 +71,6 @@ export const CartView = () => {
             <div className="space-y-1 text-right">
               <p className="text-gray-400 text-sm">{cartItems.length} item{cartItems.length !== 1 ? "s" : ""}</p>
               <p className="font-bold text-2xl">Total: {formatPrice(total)}</p>
-              <Button onClick={() => {}} variant="primary">
-                Checkout
-              </Button>
             </div>
           </div>
         </>

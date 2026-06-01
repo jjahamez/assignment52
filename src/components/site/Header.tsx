@@ -1,30 +1,23 @@
 import { useState } from "react";
 import { FaCog, FaRegHeart, FaSearch } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ButtonGroup, Link, SearchBar } from "@/components";
 import { ICON_SIZE } from "@/core";
 import { useUserContext } from "@/hooks/useUserContext";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { favourites, purchases } = useUserContext();
-  const { pathname } = useLocation();
+  const { favourites, purchases, userName  } = useUserContext();
   const [query, setQuery] = useState("");
   const [type, setType] = useState<string>("movie");
 
   const getHeaderColor = () => {
-    if (pathname.startsWith("/movies")) return "bg-gray-900";
-    if (pathname.startsWith("/tv")) return "bg-stone-800";
-    if (pathname.startsWith("/trending")) return "bg-slate-800";
-    if (pathname.startsWith("/genre")) return "bg-green-950";
-    if (pathname.startsWith("/search")) return "bg-zinc-800";
-    if (pathname.startsWith("/person")) return "bg-neutral-800";
     return "bg-gray-900";
   };
 
   return (
-    <header>
+    <header className="border-b border-gray-700"> 
       <nav className={`flex flex-wrap items-center gap-4 p-4 transition-colors duration-300 ${getHeaderColor()}`}>
         <h1 className="shrink-0 font-bold text-2xl text-white">TMDB Browser</h1>
         <div className="flex flex-wrap gap-2">
@@ -64,8 +57,8 @@ export const Header = () => {
           />
         </div>
       </nav>
-      <div className="flex items-center justify-between bg-green-950">
-        <h1 className="text-center font-bold text-3xl text-white tracking-tight">Welcome user</h1>
+      <div className="flex items-center justify-between bg-gray-900">
+        <h1 className="ml-4 font-bold text-3xl text-white tracking-tight"> Welcome, {userName}</h1>
         <div className="flex items-center gap-2">
           <button className="relative cursor-pointer rounded-full p-2 transition hover:bg-gray-700" onClick={() => navigate("/favourites")}>
             <FaRegHeart size={ICON_SIZE} />

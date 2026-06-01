@@ -15,7 +15,7 @@ export const PersonView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-800/90">
+    <div className="min-h-screen bg-gray-900">
       <section className="mx-auto max-w-4xl space-y-5 p-5 pt-10">
         <div className="flex gap-8">
           <img alt={data.name} className="h-[330px] w-[220px] rounded-xl object-cover" src={`${IMAGE_BASE_URL}${data.profile_path}`} />

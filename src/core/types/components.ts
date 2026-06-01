@@ -9,6 +9,7 @@ export type MoviesResponse = {
     original_title: string;
     poster_path: string;
     vote_average: number;
+     release_date: string;
   }>;
   total_pages: number;
 };
@@ -19,6 +20,7 @@ export type TvResponse = {
     name: string;
     poster_path: string;
     vote_average: number;
+    release_date: string;
   }>;
   total_pages: number;
 };
@@ -80,6 +82,7 @@ export type SeasonsResponse = {
     season_number: number;
     poster_path: string | null;
     air_date: string;
+    release_date: string;
   }>;
 };
 

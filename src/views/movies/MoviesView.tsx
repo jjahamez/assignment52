@@ -7,30 +7,32 @@ import type { ImageCell, MoviesResponse } from "@/core/types";
 import { cartAction, favouriteAction } from "@/core/utils/ImageActions";
 import { calculatePrice } from "@/core/utils/pricing";
 import { useTmdb, useUserContext } from "@/hooks";
-
+ 
 export const MoviesView = () => {
   const navigate = useNavigate();
   const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
   const [page, setPage] = useState<number>(1);
   const { category } = useParams();
   const { data } = useTmdb<MoviesResponse>(`${MOVIE_ENDPOINT}/${category}`, { page }, [category, page]);
-
+ 
   const gridData = (data?.results ?? []).map((result) => ({
     id: result.id,
     imagePath: result.poster_path,
-    media: "movie",
+    media: "movie" as const,
     primaryText: result.title ?? result.original_title,
     secondaryText: `⭐ ${result.vote_average.toFixed(1)}`,
+    releaseDate: result.release_date,
+    price: calculatePrice(result.release_date),
   }));
-
+ 
   useEffect(() => {
     setPage(1);
   }, []);
-
+ 
   if (!data) {
     return <p className="text-center text-gray-400">Loading...</p>;
   }
-
+ 
   return (
     <div className="min-h-screen bg-gray-900/90">
       <section className="mx-auto max-w-[1200px] space-y-5 p-5">
@@ -49,31 +51,16 @@ export const MoviesView = () => {
                 favouriteAction(
                   (img: ImageCell) => favourites.has(img.id),
                   (img: ImageCell) => {
-                    if (!purchases.has(img.id)) {
-                      togglefavourite({
-                        id: img.id,
-                        imageUrl: img.imageUrl,
-                        media: "movie",
-                        primaryText: img.primaryText,
-                        secondaryText: img.secondaryText,
-                      });
-                    }
+                    if (purchases.has(img.id)) togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                    togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, secondaryText: img.secondaryText });
                   },
                   "right",
                 ),
                 cartAction(
                   (img: ImageCell) => purchases.has(img.id),
                   (img: ImageCell) => {
-                    if (!favourites.has(img.id)) {
-                      const releaseDate = undefined;
-                      togglePurchase({
-                        id: img.id,
-                        imageUrl: img.imageUrl,
-                        media: "movie",
-                        price: calculatePrice(releaseDate),
-                        primaryText: img.primaryText,
-                      });
-                    }
+                    if (favourites.has(img.id)) togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                    togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText, price: img.price });
                   },
                   "left",
                 ),

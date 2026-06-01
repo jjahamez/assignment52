@@ -2,17 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components";
 import { useUserContext } from "@/hooks";
 
-const MOVIE_GENRES = ["Action", "Comedy", "Drama", "Horror", "Romance", "Sci-Fi", "Thriller", "Animation"];
-const TV_GENRES = ["Action", "Comedy", "Drama", "Reality", "Documentary", "Sci-Fi", "Crime", "Fantasy"];
+const MOVIE_GENRES = ["Action", "Adventure", "Animation", "Crime", "Family", "Fantasy", "Horror", "Mystery", "Sci-Fi"];
+const TV_GENRES = ["Action", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Kids", "Mystery", "Sci-Fi"];
 
 export const SettingsView = () => {
-  const { userName, setUserName, genres, toggleGenre } = useUserContext();
+  const { userName, setUserName, movieGenres, tvGenres, toggleMovieGenre, toggleTvGenre } = useUserContext();
   const [nameInput, setNameInput] = useState(userName);
 
   const handleSave = () => {
-    if (nameInput.trim()) {
-      setUserName(nameInput.trim());
-    }
+    if (nameInput.trim()) setUserName(nameInput.trim());
   };
 
   return (
@@ -38,16 +36,15 @@ export const SettingsView = () => {
 
       <div className="space-y-3 rounded-xl bg-gray-800 p-5">
         <h2 className="font-semibold text-xl">Movie Genre Preferences</h2>
+        <p className="text-gray-400 text-xs">If all are deselected, all genres will be shown.</p>
         <div className="flex flex-wrap gap-2">
           {MOVIE_GENRES.map((genre) => (
             <button
               className={`rounded-full border px-4 py-1 text-sm transition ${
-                genres.includes(genre)
-                  ? "border-blue-500 bg-blue-500 text-white"
-                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+                movieGenres.includes(genre) ? "border-blue-500 bg-blue-500 text-white" : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
               }`}
               key={genre}
-              onClick={() => toggleGenre(genre)}
+              onClick={() => toggleMovieGenre(genre)}
               type="button"
             >
               {genre}
@@ -58,16 +55,15 @@ export const SettingsView = () => {
 
       <div className="space-y-3 rounded-xl bg-gray-800 p-5">
         <h2 className="font-semibold text-xl">TV Genre Preferences</h2>
+        <p className="text-gray-400 text-xs">If all are deselected, all genres will be shown.</p>
         <div className="flex flex-wrap gap-2">
           {TV_GENRES.map((genre) => (
             <button
               className={`rounded-full border px-4 py-1 text-sm transition ${
-                genres.includes(genre)
-                  ? "border-blue-500 bg-blue-500 text-white"
-                  : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
+                tvGenres.includes(genre) ? "border-blue-500 bg-blue-500 text-white" : "border-gray-600 bg-gray-700 text-gray-300 hover:border-gray-400"
               }`}
               key={genre}
-              onClick={() => toggleGenre(genre)}
+              onClick={() => toggleTvGenre(genre)}
               type="button"
             >
               {genre}

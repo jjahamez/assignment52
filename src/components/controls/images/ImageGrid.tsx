@@ -1,22 +1,24 @@
 import { IMAGE_BASE_URL, IMAGE_PLACEHOLDER, type ImageCell } from "@/core";
-
+ 
 type ImageGridProps = {
   results: Array<{
     id: number;
     imagePath: string | null;
     primaryText: string;
     secondaryText?: string;
+    media?: "movie" | "tv";
+    price?: number;
   }>;
   onClick?: (id: number) => void;
   children?: (image: ImageCell) => React.ReactNode;
 };
-
+ 
 export const ImageGrid = ({ results, onClick, children }: ImageGridProps) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,_minmax(180px,1fr))] gap-5">
       {results.map((result) => (
         <div
-          className={`overflow-hidden rounded-lg bg-gray-800 ${onClick ? "cursor-pointer transition hover:scale-[1.02]" : ""}`}
+          className={`relative overflow-hidden rounded-lg bg-gray-800 ${onClick ? "cursor-pointer transition hover:scale-[1.02]" : ""}`}
           key={result.id}
           onClick={() => onClick?.(result.id)}
         >
@@ -25,6 +27,8 @@ export const ImageGrid = ({ results, onClick, children }: ImageGridProps) => {
             imageUrl: result.imagePath ? `${IMAGE_BASE_URL}${result.imagePath}` : IMAGE_PLACEHOLDER,
             primaryText: result.primaryText,
             secondaryText: result.secondaryText,
+            media: result.media,
+            price: result.price,
           })}
           <img
             alt={result.primaryText}

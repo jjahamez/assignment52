@@ -35,30 +35,30 @@ export const SeasonsView = () => {
                 favouriteAction(
                   (img: ImageCell) => favourites.has(img.id),
                   (img: ImageCell) => {
-                    if (!purchases.has(img.id)) {
-                      togglefavourite({
-                        id: img.id,
-                        imageUrl: img.imageUrl,
-                        media: "tv",
-                        primaryText: img.primaryText,
-                        secondaryText: img.secondaryText,
-                      });
-                    }
+                    if (purchases.has(img.id))
+                      togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: "tv", primaryText: img.primaryText });
+                    togglefavourite({
+                      id: img.id,
+                      imageUrl: img.imageUrl,
+                      media: "tv",
+                      primaryText: img.primaryText,
+                      secondaryText: img.secondaryText,
+                    });
                   },
                   "right",
                 ),
                 cartAction(
                   (img: ImageCell) => purchases.has(img.id),
                   (img: ImageCell) => {
-                    if (!favourites.has(img.id)) {
-                      togglePurchase({
-                        id: img.id,
-                        imageUrl: img.imageUrl,
-                        media: "tv",
-                        price: calculatePrice(img.secondaryText),
-                        primaryText: img.primaryText,
-                      });
-                    }
+                    if (favourites.has(img.id))
+                      togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: "tv", primaryText: img.primaryText });
+                    togglePurchase({
+                      id: img.id,
+                      imageUrl: img.imageUrl,
+                      media: "tv",
+                      price: calculatePrice(img.secondaryText),
+                      primaryText: img.primaryText,
+                    });
                   },
                   "left",
                 ),
