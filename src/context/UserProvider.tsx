@@ -23,7 +23,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [movieGenres, setMovieGenres] = useLocalStorage<string[], string[]>(MOVIE_GENRES_KEY, []);
   const [tvGenres, setTvGenres] = useLocalStorage<string[], string[]>(TV_GENRES_KEY, []);
 
-  const togglefavourite = (image: ImageCell) => {
+  const toggleFavourite = (image: ImageCell) => {
     setfavourites((prev) => {
       const cloned = new Map(prev);
       if (cloned.has(image.id)) cloned.delete(image.id);
@@ -41,7 +41,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     });
   };
 
-  const clearfavourites = (media: "movie" | "tv") => {
+  const clearFavourites = (media: "movie" | "tv") => {
     setfavourites((prev) => {
       const cloned = new Map(prev);
       for (const [id, image] of cloned.entries()) {
@@ -76,13 +76,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        clearfavourites,
+        clearFavourites,
         clearPurchases,
         favourites,
         movieGenres,
         purchases,
         setUserName,
-        togglefavourite,
+        toggleFavourite,
         toggleMovieGenre,
         togglePurchase,
         toggleTvGenre,

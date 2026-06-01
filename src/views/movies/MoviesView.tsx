@@ -10,7 +10,7 @@ import { useTmdb, useUserContext } from "@/hooks";
 
 export const MoviesView = () => {
   const navigate = useNavigate();
-  const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
+  const { favourites, purchases, toggleFavourite, togglePurchase } = useUserContext();
   const [page, setPage] = useState<number>(1);
   const { category } = useParams();
   const { data } = useTmdb<MoviesResponse>(`${MOVIE_ENDPOINT}/${category}`, { page }, [category, page]);
@@ -53,7 +53,7 @@ export const MoviesView = () => {
                   (img: ImageCell) => {
                     if (purchases.has(img.id))
                       togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                    togglefavourite({
+                    toggleFavourite({
                       id: img.id,
                       imageUrl: img.imageUrl,
                       media: img.media,
@@ -67,7 +67,7 @@ export const MoviesView = () => {
                   (img: ImageCell) => purchases.has(img.id),
                   (img: ImageCell) => {
                     if (favourites.has(img.id))
-                      togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                      toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                     togglePurchase({
                       id: img.id,
                       imageUrl: img.imageUrl,

@@ -10,7 +10,7 @@ import { useDebounce, useTmdb, useUserContext } from "@/hooks";
 
 export const SearchView = () => {
   const navigate = useNavigate();
-  const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
+  const { favourites, purchases, toggleFavourite, togglePurchase } = useUserContext();
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState<number>(1);
 
@@ -37,7 +37,7 @@ export const SearchView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-800/90">
+    <div className="min-h-screen bg-gray-900">
       <section className="mx-auto max-w-[1200px] space-y-5 p-10">
         <h1 className="font-bold text-3xl">Results for: {query}</h1>
         <ImageGrid
@@ -56,7 +56,7 @@ export const SearchView = () => {
                       (img: ImageCell) => {
                         if (purchases.has(img.id))
                           togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                        togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                       },
                       "right",
                     ),
@@ -64,7 +64,7 @@ export const SearchView = () => {
                       (img: ImageCell) => purchases.has(img.id),
                       (img: ImageCell) => {
                         if (favourites.has(img.id))
-                          togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                          toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                         togglePurchase({
                           id: img.id,
                           imageUrl: img.imageUrl,

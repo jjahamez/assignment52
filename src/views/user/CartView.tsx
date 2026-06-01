@@ -8,7 +8,7 @@ import { useUserContext } from "@/hooks";
 
 export const CartView = () => {
   const navigate = useNavigate();
-  const { purchases, favourites, clearPurchases, togglePurchase, togglefavourite } = useUserContext();
+  const { purchases, favourites, clearPurchases, togglePurchase, toggleFavourite } = useUserContext();
 
   const cartItems = Array.from(purchases.values());
   const total = cartItems.reduce((sum, item) => sum + (item.price ?? 0), 0);
@@ -50,7 +50,7 @@ export const CartView = () => {
                     (img: ImageCell) => favourites.has(img.id),
                     (img: ImageCell) => {
                       togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                      togglefavourite({
+                      toggleFavourite({
                         id: img.id,
                         imageUrl: img.imageUrl,
                         media: img.media,

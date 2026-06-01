@@ -8,9 +8,9 @@ export type UserContextType = {
   movieGenres: string[];
   tvGenres: string[];
   setUserName: (userName: string) => void;
-  togglefavourite: (image: ImageCell) => void;
+  toggleFavourite: (image: ImageCell) => void;
   togglePurchase: (image: ImageCell) => void;
-  clearfavourites: (media: "movie" | "tv") => void;
+  clearFavourites: (media: "movie" | "tv") => void;
   toggleMovieGenre: (genre: string) => void;
   toggleTvGenre: (genre: string) => void;
   clearPurchases: () => void;

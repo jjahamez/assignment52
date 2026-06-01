@@ -31,9 +31,7 @@ export const SettingsView = () => {
             Save
           </Button>
         </div>
-        <p className="text-gray-400 text-sm">Current: {userName}</p>
       </div>
-
       <div className="space-y-3 rounded-xl bg-gray-800 p-5">
         <h2 className="font-semibold text-xl">Movie Genre Preferences</h2>
         <p className="text-gray-400 text-xs">If all are deselected, all genres will be shown.</p>

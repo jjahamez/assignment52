@@ -38,7 +38,7 @@ export const GenreView = () => {
   const navigate = useNavigate();
   const { mediaType, genre } = useParams();
   const [page, setPage] = useState<number>(1);
-  const { favourites, purchases, movieGenres, tvGenres, togglefavourite, togglePurchase } = useUserContext();
+  const { favourites, purchases, movieGenres, tvGenres, toggleFavourite, togglePurchase } = useUserContext();
 
   const allGenres = mediaType === "tv" ? TV_GENRES : MOVIE_GENRES;
   const activePrefs = mediaType === "tv" ? tvGenres : movieGenres;
@@ -67,7 +67,7 @@ export const GenreView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-green-950/90">
+    <div className="min-h-screen bg-gray-900">
       <section className="mx-auto max-w-[1200px] space-y-5 p-5">
         <LinkGroup
           options={[
@@ -97,7 +97,7 @@ export const GenreView = () => {
                   (img: ImageCell) => {
                     if (purchases.has(img.id))
                       togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                    togglefavourite({
+                    toggleFavourite({
                       id: img.id,
                       imageUrl: img.imageUrl,
                       media: img.media,
@@ -111,7 +111,7 @@ export const GenreView = () => {
                   (img: ImageCell) => purchases.has(img.id),
                   (img: ImageCell) => {
                     if (favourites.has(img.id))
-                      togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                      toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                     togglePurchase({
                       id: img.id,
                       imageUrl: img.imageUrl,

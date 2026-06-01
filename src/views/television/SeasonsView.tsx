@@ -11,7 +11,7 @@ export const SeasonsView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useTmdb<SeasonsResponse>(`${TV_ENDPOINT}/${id}`, {}, [id]);
-  const { favourites, purchases, togglefavourite, togglePurchase } = useUserContext();
+  const { favourites, purchases, toggleFavourite, togglePurchase } = useUserContext();
 
   const gridData = (data?.seasons ?? []).map((result) => ({
     id: result.season_number,
@@ -37,7 +37,7 @@ export const SeasonsView = () => {
                   (img: ImageCell) => {
                     if (purchases.has(img.id))
                       togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: "tv", primaryText: img.primaryText });
-                    togglefavourite({
+                    toggleFavourite({
                       id: img.id,
                       imageUrl: img.imageUrl,
                       media: "tv",
@@ -51,7 +51,7 @@ export const SeasonsView = () => {
                   (img: ImageCell) => purchases.has(img.id),
                   (img: ImageCell) => {
                     if (favourites.has(img.id))
-                      togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: "tv", primaryText: img.primaryText });
+                      toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: "tv", primaryText: img.primaryText });
                     togglePurchase({
                       id: img.id,
                       imageUrl: img.imageUrl,

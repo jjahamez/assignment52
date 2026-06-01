@@ -10,7 +10,7 @@ import { useUserContext } from "@/hooks";
 export const FavouritesView = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState<"movie" | "tv">("movie");
-  const { favourites, purchases, clearfavourites, togglefavourite, togglePurchase } = useUserContext();
+  const { favourites, purchases, clearFavourites, toggleFavourite, togglePurchase } = useUserContext();
 
   const favouriteResults = Array.from(favourites.values())
     .filter((fav) => fav.media === active)
@@ -47,7 +47,7 @@ export const FavouritesView = () => {
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-gray-300 text-xl">{active === "movie" ? "Favourite Movies" : "Favourite TV Shows"}</h2>
           {favouriteResults.length > 0 && (
-            <Button onClick={() => clearfavourites(active)} variant="red">
+            <Button onClick={() => clearFavourites(active)} variant="red">
               Clear
             </Button>
           )}
@@ -62,7 +62,7 @@ export const FavouritesView = () => {
                     (img: ImageCell) => {
                       if (purchases.has(img.id))
                         togglePurchase({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
-                      togglefavourite({
+                      toggleFavourite({
                         id: img.id,
                         imageUrl: img.imageUrl,
                         media: img.media,
@@ -76,7 +76,7 @@ export const FavouritesView = () => {
                     (img: ImageCell) => purchases.has(img.id),
                     (img: ImageCell) => {
                       if (favourites.has(img.id))
-                        togglefavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
+                        toggleFavourite({ id: img.id, imageUrl: img.imageUrl, media: img.media, primaryText: img.primaryText });
                       togglePurchase({
                         id: img.id,
                         imageUrl: img.imageUrl,
@@ -93,7 +93,13 @@ export const FavouritesView = () => {
             )}
           </ImageGrid>
         ) : (
-          <p className="col-span-5 text-center text-gray-400">No favourites added yet.</p>
+          <div className="flex flex-col items-center gap-5 py-10">
+            <p className="text-gray-400">No favourites added yet.</p>
+
+            <Button onClick={() => navigate(active === "movie" ? "/movies/category/popular" : "/tv/category/popular")} variant="primary">
+              {active === "movie" ? "Explore Movies" : "Explore TV Shows"}
+            </Button>
+          </div>
         )}
       </section>
     </section>
